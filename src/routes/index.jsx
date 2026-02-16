@@ -4,6 +4,8 @@ import ProductList from "../pages/ProductList";
 import ProductDetails from "../pages/ProductDetails";
 import Cart from "../pages/Cart";
 import Admin from "../pages/Admin";
+import Checkout from "../pages/Checkout";
+import OrderSuccess from "../pages/orderSuccess";
 
 const routes = [
     {
@@ -24,8 +26,16 @@ const routes = [
             },
             {
                 path:'/cart',
-                element: <Cart />
+                element: <Cart />,
             },
+            {
+                path: '/cart/checkout',
+                element: <Checkout />
+            },        
+            {
+                path: '/cart/checkout/order-success',
+                element: <OrderSuccess />
+            },        
             {
                 path:'/admin',
                 element: <Admin />

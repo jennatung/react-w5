@@ -22,15 +22,17 @@ const ProductDetails = () => {
     const { id } = params;
     const [product, setProduct] = useState([]);
     const [cartQty, setCartQty] = useState("");
+    const [loading, setLoading] = useState(false);
 
     useEffect(()=>{
-        (async()=>{
+        (async()=>{            
             const res = await axios.get(`${VITE_API_BASE}/api/${VITE_API_PATH}/product/${id}`);
-            setProduct(res.data.product);
+            setProduct(res.data.product);            
         })()
     },[])
 
     const addCart = async(id) => {
+        setLoading(true);
         const qty = Number(cartQty);
         if (!qty || qty <= 0) return;
         const data = {
@@ -39,15 +41,14 @@ const ProductDetails = () => {
         }
         try {
             const res = await axios.post(`${VITE_API_BASE}/api/${VITE_API_PATH}/cart`,{data});
-            Toast.fire({
-                icon: "success",
-                title: "加入購物車成功"
-            });
+            navigate("/order-success");
         } catch (error) {
             Toast.fire({
                 icon: "error",
                 title: error.response.data.message
             });
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -75,7 +76,6 @@ const ProductDetails = () => {
                         </span>
                     </p>                    
                 </div>
-
                 
                 <div className="d-flex gap-3 border-top pt-3 align-items-center">
                     <select 
@@ -90,12 +90,15 @@ const ProductDetails = () => {
                             </option>
                         ))}
                     </select>
-                    <p className="text-body-secondary fs-6">剩餘數量: {product.num}</p>
+                    <p className="text-body-secondary fs-6">現貨數量: {product.num}</p>
                 </div>
                 <button type="button" className="btn btn-warning w-50 mt-2" 
                     onClick={()=> addCart(product.id)}
-                    disabled={Number(cartQty) <= 0 || !cartQty}
-                >加入購物車</button>
+                    disabled={Number(cartQty) <= 0 || !cartQty || loading}
+                >
+                    加入購物車
+                    {loading && <span className="spinner-border spinner-border-sm"></span>}
+                </button>
 
                 {/* {JSON.stringify(product)} */}
             </div>

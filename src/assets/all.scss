@@ -1,6 +1,6 @@
-@import 'bootstrap/scss/bootstrap';
 @import 'bootstrap/scss/functions';
 @import './variables';
+@import 'bootstrap/scss/bootstrap';
 
 html,
 body {
@@ -34,4 +34,8 @@ img {
 
 .images {
   height: 150px;
+}
+
+.color-main {
+  color: #CA3C25 ;
 }
