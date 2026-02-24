@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import Pagination from "../components/Pagination";
 import Swal from 'sweetalert2';
+import { useDispatch } from "react-redux";
+import { createAsyncMessage } from "../slice/messageSlice";
+
 
 const Toast = Swal.mixin({
   toast: true,
@@ -23,6 +26,7 @@ const ProductList = () => {
     const [pageInfo, setpageInfo] = useState({});
     const [cartQty, setCartQty] = useState([]);
     const [listLoadingState, setListLoadingState] = useState([]);
+    const dispatch = useDispatch();
 
     const addCart = async(id, qty) => {
         const data = {
@@ -31,15 +35,17 @@ const ProductList = () => {
         };  
         try {
             const res = await axios.post(`${VITE_API_BASE}/api/${VITE_API_PATH}/cart`,{data});
-            Toast.fire({
-                icon: "success",
-                title: "加入購物車成功"
-            });
+            dispatch(createAsyncMessage(res.data));
+            // Toast.fire({
+            //     icon: "success",
+            //     title: "加入購物車成功"
+            // });
         } catch (error) {
-            Toast.fire({
-                icon: "error",
-                title: error.response.data.message
-            });
+            dispatch(createAsyncMessage(error.response.data));
+            // Toast.fire({
+            //     icon: "error",
+            //     title: error.response.data.message
+            // });
         } finally {
            setListLoadingState((prev)=>{
             return prev.filter((i) => i !== id);
@@ -129,7 +135,7 @@ const ProductList = () => {
                 })}         
             </tbody>
         </table>
-        <div className="pb-3 d-flex justify-content-center">
+        <div className="pb-5 mb-5 d-flex justify-content-center">
             <Pagination pageInfo={pageInfo} getProducts={getProducts}/>
         </div>
         

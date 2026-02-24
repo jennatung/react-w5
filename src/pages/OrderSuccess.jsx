@@ -10,7 +10,7 @@ const OrderSuccess = () => {
                 </div>
                 <div className="col-6">
                     <div className="d-flex flex-column justify-content-center align-items-center h-100 gap-2">
-                        <h2 className="fw-bold">預定成功! 😀</h2>
+                        <h2 className="fw-bold">預訂成功! 😀</h2>
                         <NavLink to="/" className="btn btn-success w-50">回首頁</NavLink>
                     </div>
                 </div>

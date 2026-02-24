@@ -9,7 +9,7 @@ function Layout (){
             <NavLink to="/cart" className="me-auto">購物車</NavLink>            
         </div>
         <Outlet />
-        <div className="d-flex py-5 px-5 bg-warning-subtle justify-content-between align-items-center">
+        <div className="d-flex py-3 px-5 bg-warning-subtle justify-content-between align-items-center fixed-bottom ">
             <h1>🍏🍐🍑🍒🍓🍅🌽</h1>
             <NavLink to="/admin">管理員登入</NavLink>
         </div>

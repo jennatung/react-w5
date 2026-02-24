@@ -57,7 +57,6 @@ const Checkout = () => {
                 message: data.message
             }
         }
-        console.log(orderData);
         try {
             const res = await axios.post(`${VITE_API_BASE}/api/${VITE_API_PATH}/order`, orderData);
             navigate("/cart/checkout/order-success");

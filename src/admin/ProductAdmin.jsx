@@ -1,6 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import Pagination from "../components/Pagination";
 import ProductModal from "../components/ProductModal";
+import { useDispatch } from "react-redux";
+import { createAsyncMessage } from "../slice/messageSlice";
+
+const API_BASE = import.meta.env.VITE_API_BASE;
+const API_PATH = import.meta.env.VITE_API_PATH;
 
 const INITIAL_TEMPLATE_DATA = {
   id: "",
@@ -17,10 +23,29 @@ const INITIAL_TEMPLATE_DATA = {
   rate:""
 };
 
-function ProductAdmin({getProducts, products, pageInfo}) {
+function ProductAdmin() {
+  const [products, setProducts] = useState([]);
+  const [pageInfo, setpageInfo] = useState({});
   const [templateData, setTemplateData] = useState(INITIAL_TEMPLATE_DATA); //儲存Modal的資料
   const [modalType, setModalType] = useState(""); // 決定開啟哪一種Modal "create", "edit", "delete"
   const [isProductModelOpen, setIsProductModelOpen] = useState(false); //決定是否開啟Model
+  const dispatch = useDispatch();
+  
+  //取得產品列表
+  const getProducts = async (page = 1) => {
+    try {
+      const res = await axios.get(`${API_BASE}/api/${API_PATH}/admin/products?page=${page}`);  
+      setProducts(res.data.products);
+      setpageInfo(res.data.pagination);
+    } catch (error) {
+      console.log(error.message);
+      dispatch(createAsyncMessage(error.response.data));
+    }
+  }
+  
+  useEffect(()=>{
+    getProducts();
+  },[])
 
   return (<>
     <div className="container">

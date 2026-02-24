@@ -2,6 +2,8 @@ import { useParams } from "react-router";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Swal from 'sweetalert2';
+import { useDispatch } from "react-redux";
+import { createAsyncMessage } from "../slice/messageSlice";
 
 const Toast = Swal.mixin({
   toast: true,
@@ -23,11 +25,16 @@ const ProductDetails = () => {
     const [product, setProduct] = useState([]);
     const [cartQty, setCartQty] = useState("");
     const [loading, setLoading] = useState(false);
+    const dispatch = useDispatch();
 
     useEffect(()=>{
-        (async()=>{            
-            const res = await axios.get(`${VITE_API_BASE}/api/${VITE_API_PATH}/product/${id}`);
-            setProduct(res.data.product);            
+        (async()=>{    
+            try {
+                const res = await axios.get(`${VITE_API_BASE}/api/${VITE_API_PATH}/product/${id}`);
+                setProduct(res.data.product);            
+            } catch (error) {
+                console.log(error);
+            }        
         })()
     },[])
 
@@ -40,13 +47,11 @@ const ProductDetails = () => {
             qty: qty
         }
         try {
-            const res = await axios.post(`${VITE_API_BASE}/api/${VITE_API_PATH}/cart`,{data});
-            navigate("/order-success");
+            const res = await axios.post(`${VITE_API_BASE}/api/${VITE_API_PATH}/cart`,{data});   
+            dispatch(createAsyncMessage(res.data));     
         } catch (error) {
-            Toast.fire({
-                icon: "error",
-                title: error.response.data.message
-            });
+            console.log(error);
+            dispatch(createAsyncMessage(error.response.data));
         } finally {
             setLoading(false);
         }

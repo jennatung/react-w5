@@ -1,6 +1,8 @@
 import * as bootstrap from "bootstrap";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { createAsyncMessage } from "../slice/messageSlice";
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -10,6 +12,7 @@ function ProductModal({getProducts, modalType, templateData, setTemplateData, is
     const myModal = useRef(null);
     const productModalRef = useRef(null);   
     const fileInputRef = useRef(null);
+    const dispatch = useDispatch();
 
     //編輯產品，set帶入資料
     const handleModalInputChange = (e) => {
@@ -84,9 +87,9 @@ function ProductModal({getProducts, modalType, templateData, setTemplateData, is
             imagesUrl: [...templateData.imagesUrl.filter((url) => url !== "")]
         }
         }
-
         try {
             const response = await axios[method](url, productData);
+            dispatch(createAsyncMessage(response.data));
             getProducts();
             closeModal();
         } catch (error) {

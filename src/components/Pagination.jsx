@@ -5,7 +5,6 @@ function Pagination({pageInfo, getProducts}) {
   const handlePageChange = (page) => {
     getProducts(page);
   }
-
     return (<>
         <div className="d-flex mt-5">
           <nav>

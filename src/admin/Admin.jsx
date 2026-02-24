@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import LoginPage from "./LoginPage";
 import ProductAdmin from "./ProductAdmin";
+import { useNavigate } from "react-router";
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -10,6 +11,7 @@ function Admin() {
   const [isAuth, setIsAuth] = useState(false);
   const [products, setProducts] = useState([]);
   const [pageInfo, setpageInfo] = useState({});
+  const navigate = useNavigate();
 
   //登入驗證
   const checkLogin = async () => {
@@ -18,6 +20,7 @@ function Admin() {
       // console.log(res.data);
       setIsAuth(true);
       getProducts();
+      navigate('/admin/product');
     } catch (error) {
       console.log(error.response?.data.message);
     }
@@ -47,9 +50,10 @@ function Admin() {
   }
 
   return (
-    <>{!isAuth ? 
+    <>
+    {/* {!isAuth ? 
     <LoginPage getProducts={getProducts} setIsAuth={setIsAuth}/> : 
-    <ProductAdmin getProducts={getProducts} pageInfo={pageInfo} products={products} /> }
+    <ProductAdmin getProducts={getProducts} pageInfo={pageInfo} products={products} /> } */}
     </>
   )
 }

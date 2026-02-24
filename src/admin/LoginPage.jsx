@@ -1,9 +1,15 @@
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 
 const API_BASE = import.meta.env.VITE_API_BASE;
+const API_PATH = import.meta.env.VITE_API_PATH;
 
-function LoginPage({setIsAuth, getProducts}){
+function LoginPage(){
+
+  const navigate = useNavigate();
+  
   const { 
     register, 
     handleSubmit,
@@ -22,14 +28,34 @@ function LoginPage({setIsAuth, getProducts}){
       const {token, expired} = res.data;
       document.cookie = `hexToken=${token};expires=${new Date(expired)};`;
       axios.defaults.headers.common['Authorization'] = token;
-      getProducts();
-      setIsAuth(true);
+      navigate('/admin/product');
     }catch(error){
-      setIsAuth(false);
       alert(error.response.data.message);
       console.log(error);
     }
   }
+
+  //登入驗證
+  const checkLogin = async () => {
+    try {
+      const res = await axios.post(`${API_BASE}/api/user/check`);
+      // console.log(res.data);
+      navigate('/admin/product');
+    } catch (error) {
+      console.log(error.response?.data.message);
+    }
+  }
+
+  //刷新後執行登入驗證
+  useEffect(()=>{
+    const token = document.cookie.split("; ")
+    .find((row)=>row.startsWith("hexToken="))
+    ?.split("=")[1];
+    if (token) {
+      axios.defaults.headers.common.Authorization = token;
+    }
+    checkLogin();
+  },[])
 
     return (
         <div className="container login">
