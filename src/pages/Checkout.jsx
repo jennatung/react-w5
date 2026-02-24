@@ -29,7 +29,7 @@ const Checkout = () => {
             const res = await axios.get(`${VITE_API_BASE}/api/${VITE_API_PATH}/cart`);
             // console.log(res.data.data.carts);
             setCart(res.data.data.carts);
-            setTotalPrice((res.data.data.carts).reduce((sum, item) => sum + item.product.price * item.product.num, 0));
+            setTotalPrice((res.data.data.carts).reduce((sum, item) => sum + item.product.price * item.qty, 0));
         })()
     },[])
 

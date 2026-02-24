@@ -40,7 +40,7 @@ const Cart = () => {
         try {
             const res = await axios.get(`${VITE_API_BASE}/api/${VITE_API_PATH}/cart`);      
             setCart(res.data.data.carts);
-            setTotalPrice((res.data.data.carts).reduce((sum, item) => sum + item.product.price * item.product.num, 0));
+            setTotalPrice((res.data.data.carts).reduce((sum, item) => sum + item.product.price * item.qty, 0));
         } catch (error) {
             alert(error.message);
         }
@@ -73,7 +73,7 @@ const Cart = () => {
                         <td  className="pt-3 fs-5">{item.product.price}</td>
                         <td  className="pt-3 fs-5">{item.qty}</td>
                         <td  className="pt-3 fs-5">{item.product.num >= item.qty ? (<span className="fs-6">✔</span>) : (<span className="color-main fw-bold fs-6">預購數量 {item.qty - item.product.num}</span>)}</td>
-                        <td  className="pt-3 fs-5">{(item.product.price)*(item.product.num)}</td>
+                        <td  className="pt-3 fs-5">{(item.product.price)*(item.qty)}</td>
                         <td>
                             <button type="button" className="btn btn-sm btn-outline-secondary fs-6" onClick={()=>delProduct(item.id)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
