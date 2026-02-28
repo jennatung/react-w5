@@ -31,7 +31,6 @@ function LoginPage(){
       navigate('/admin/product');
     }catch(error){
       alert(error.response.data.message);
-      console.log(error);
     }
   }
 
@@ -39,7 +38,6 @@ function LoginPage(){
   const checkLogin = async () => {
     try {
       const res = await axios.post(`${API_BASE}/api/user/check`);
-      // console.log(res.data);
       navigate('/admin/product');
     } catch (error) {
       console.log(error.response?.data.message);

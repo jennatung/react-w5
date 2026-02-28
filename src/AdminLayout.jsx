@@ -15,7 +15,7 @@ function AdminLayout(){
             delete axios.defaults.headers.common['Authorization'];
             navigate('/');
         }catch(error){
-            console.log(error);
+            console.log(error.response?.data.message);
         }
     }
     return(<>

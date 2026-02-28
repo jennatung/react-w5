@@ -100,15 +100,12 @@ function ProductModal({getProducts, modalType, templateData, setTemplateData, is
 
     //上傳圖片功能
     const handleFileChange = async(e) => {
-        // console.dir(e.target);
         const file = e.target.files[0];
         const formData = new FormData();
         formData.append('file-to-upload', file);
-        // console.log(formData);
         try {
         const res = await axios.post(`${API_BASE}/api/${API_PATH}/admin/upload`, formData);
         const uploadImageUrl = res.data.imageUrl;
-        // console.log(res.data.imageUrl);
         setTemplateData({
             ...templateData,
             imageUrl: uploadImageUrl

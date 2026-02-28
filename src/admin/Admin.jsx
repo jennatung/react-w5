@@ -17,7 +17,6 @@ function Admin() {
   const checkLogin = async () => {
     try {
       const res = await axios.post(`${API_BASE}/api/user/check`);
-      // console.log(res.data);
       setIsAuth(true);
       getProducts();
       navigate('/admin/product');

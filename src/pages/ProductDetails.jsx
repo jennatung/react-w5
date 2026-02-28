@@ -33,7 +33,7 @@ const ProductDetails = () => {
                 const res = await axios.get(`${VITE_API_BASE}/api/${VITE_API_PATH}/product/${id}`);
                 setProduct(res.data.product);            
             } catch (error) {
-                console.log(error);
+                console.log(error.response?.data.message);
             }        
         })()
     },[])
@@ -50,7 +50,7 @@ const ProductDetails = () => {
             const res = await axios.post(`${VITE_API_BASE}/api/${VITE_API_PATH}/cart`,{data});   
             dispatch(createAsyncMessage(res.data));     
         } catch (error) {
-            console.log(error);
+            console.log(error.response?.data.message);
             dispatch(createAsyncMessage(error.response.data));
         } finally {
             setLoading(false);
